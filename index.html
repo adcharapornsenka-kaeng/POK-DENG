@@ -1,0 +1,695 @@
+<!doctype html>
+<html lang="th">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>POK ♦ ป๊อกเด้ง</title>
+<style>
+*{box-sizing:border-box}
+body{margin:0;background:#160b11;color:#f6e4ca;font:14px system-ui,sans-serif}
+button,input,select{font:inherit}
+button{cursor:pointer;background:#49202c;color:#ffe2a9;border:1px solid #9b7244;border-radius:9px;padding:10px 15px}
+button:disabled{opacity:.4;cursor:default}
+input,select{background:#29131d;color:#fff;padding:10px;border:1px solid #946d43;border-radius:6px}
+a{color:#efc87d}
+.sidebar{background:#230f18;padding:20px}
+.brand{font-size:32px;text-decoration:none;color:#efc87d}
+.eyebrow,.sidefoot,footer,.muted{color:#c8a98e;font-size:12px}
+nav{display:flex;gap:8px;flex-wrap:wrap;margin:15px 0}
+nav button.selected,.chips .active,.chosen{background:#d8af66;color:#30101b}
+main{max-width:1100px;margin:auto;padding:20px}
+header,.authbar,.modebanner,.table-top,.dealer-label,.controls,.actions,.nextrow,.approvalrow,.roundplayer-head{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+header,.table-top,.nextrow,.approvalrow,.roundplayer-head{justify-content:space-between}
+.wallet{display:grid}
+.wallet strong{font-size:24px}
+.notice,.modebanner,.error,.success,.authhint,.pendingbox{padding:12px;border:1px solid #805535;border-radius:8px;margin:14px 0}
+.error,.modalerror{color:#ffb6b6}
+.modepill{color:#f0c775}
+.table-top{margin:20px 0}
+.felt{background:radial-gradient(ellipse,#a9253d,#760e28 70%,#490d20);border:7px solid #cfa759;border-radius:60px;padding:24px 14px;text-align:center;box-shadow:inset 0 0 35px #380518}
+.dealer-label{justify-content:center}
+.avatar{font-size:28px}
+.cards{display:flex;justify-content:center;gap:7px;margin:12px 0}
+.card{width:60px;height:88px;background:#fff8ec;color:#291520;border-radius:7px;padding:6px;text-align:left;box-shadow:0 3px 7px #0006;position:relative}
+.card small{font-size:14px}
+.card strong{position:absolute;right:9px;bottom:4px;font-size:29px}
+.card.red{color:#bd2441}
+.card.back{display:grid;place-items:center;background:repeating-linear-gradient(45deg,#66182f 0 4px,#9c4055 4px 6px);border:3px solid #ecd198;color:#efcc85;font-size:26px}
+.table-logo{font-size:28px;letter-spacing:5px;color:#e4b48788;margin:24px}
+.table-logo small{display:block;font-size:9px}
+.roster{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.seat{display:grid;gap:6px;background:#400b2166;border:1px solid #cf9f6977;padding:15px;border-radius:12px}
+.seat em,.handname{color:#ffe0a3}
+.seat span{font-size:22px}
+.seat b{overflow-wrap:anywhere}
+.roundplayer{background:#400b2155;border:1px solid #b47958;border-radius:12px;margin:12px 0;padding:12px}
+.legs{display:flex;justify-content:center;flex-wrap:wrap;gap:9px}
+.leg{background:#320a1b77;border:1px solid #a8674d;border-radius:10px;padding:10px;margin-top:10px}
+.leg.winner{border-color:#ffdc80}
+.legtitle{display:flex;justify-content:space-between;gap:20px}
+.legactions{display:flex;gap:5px;margin-top:10px}
+.result{margin-top:18px}
+.controls{margin:18px 0;justify-content:space-between}
+.chips{display:flex;gap:6px;margin:8px 0;flex-wrap:wrap}
+.custombet,.legcount,.topupform label{display:grid;gap:8px;margin:10px 0}
+.custombet input{width:110px}
+.primary{background:linear-gradient(135deg,#f5d99a,#c69b50);color:#381321;font-weight:600}
+.consent{display:block;margin-top:18px}
+.panel{padding:22px;background:#29131c;border:1px solid #775033;border-radius:14px;margin:20px 0}
+.stats{display:flex;gap:15px;flex-wrap:wrap}
+.stats .panel{display:grid;gap:10px;flex:1}
+.stats strong{font-size:36px}
+.overflow{overflow:auto}
+table{border-collapse:collapse;width:100%;font-size:13px}
+td,th{padding:12px 8px;border-bottom:1px solid #64412e;text-align:left}
+.positive{color:#a5dfab}
+.negative{color:#ffb5ae}
+.rules{line-height:1.9}
+.approvalrow{padding:12px 0;border-bottom:1px solid #67432f}
+.topupform,.presets{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+.modal{position:fixed;inset:0;z-index:100;background:#000b;display:grid;place-items:center;padding:20px}
+.modal[hidden]{display:none}
+.modalbox{background:#29131c;border:1px solid #cfa759;border-radius:15px;padding:25px;width:min(440px,100%);max-height:90vh;overflow:auto}
+.modalbox label{display:grid;gap:7px;margin:15px 0}
+.modalbox label[hidden]{display:none}
+.modalbox button{margin:6px 0}
+footer{margin:25px 0;display:flex;justify-content:space-between;gap:12px}
+@media(max-width:600px){
+main{padding:14px}
+.sidebar{padding:14px}
+nav button{padding:8px}
+.felt{border-radius:30px}
+.roster{grid-template-columns:repeat(2,1fr)}
+.notice span,.sidefoot{display:none}
+.card{width:52px;height:78px}
+.leg{padding:8px}
+h1{font-size:23px}
+}
+</style>
+</head>
+<body>
+
+<div id="app">
+<p style="padding:30px">กำลังเชื่อมต่อโต๊ะ…</p>
+</div>
+
+<div id="authModal" class="modal" hidden>
+<form id="authForm" class="modalbox">
+<h2 id="authTitle">เข้าสู่ระบบ</h2>
+
+<label id="nameLabel" hidden>
+ชื่อสมาชิก
+<input name="name" maxlength="40" autocomplete="nickname">
+</label>
+
+<label>
+อีเมล
+<input name="email" type="email" required maxlength="160" autocomplete="username">
+</label>
+
+<label>
+รหัสผ่าน
+<input name="password" type="password" required minlength="1" maxlength="128" autocomplete="current-password">
+</label>
+
+<p id="authError" class="modalerror" role="alert"></p>
+<button class="primary" type="submit">ยืนยัน</button>
+<button type="button" id="authSwitch">สมัครสมาชิก</button>
+<button type="button" id="authClose">ปิด</button>
+</form>
+</div>
+
+<script>
+'use strict';
+
+const S={
+  data:null,tab:'play',bet:5,count:1,amount:100,
+  accept:false,busy:false,error:'',message:'',
+  key:null,authMode:'login'
+};
+
+const esc=v=>String(v??'').replace(/[&<>"']/g,c=>({
+  '&':'&amp;','<':'&lt;','>':'&gt;',
+  '"':'&quot;',"'":'&#39;'
+}[c]));
+
+const plus=n=>(n>0?'+':'')+n;
+const symbols=['♠','♥','♦','♣'];
+const date=v=>new Date(v).toLocaleString('th-TH',{
+  timeZone:'Asia/Singapore'
+});
+
+function points(h){
+  return h.reduce((n,c)=>n+(c.r>=10?0:c.r),0)%10;
+}
+
+function handName(h){
+  if(!h?.length)return '';
+  const p=points(h);
+  const r=h.map(c=>c.r).sort((a,b)=>a-b);
+  const same=h.every(c=>c.s===h[0].s);
+  if(h.length===2&&p>=8)return 'ป๊อก '+p;
+  if(h.length===3){
+    if(r[0]===r[2])return 'ตอง';
+    if((r[0]+1===r[1]&&r[1]+1===r[2])||r.join(',')==='1,12,13'){
+      return same?'เรียงดอกเดียว':'เรียง';
+    }
+    if(r.every(n=>n>=11))return 'เซียน';
+  }
+  return p+' แต้ม';
+}
+
+function cards(h=[]){
+  const faces=['','A','2','3','4','5','6','7','8','9','10','J','Q','K'];
+  return '<div class="cards">'+(
+    h.length
+      ?h.map(c=>'<div class="card '+([1,2].includes(c.s)?'red':'')+
+        '"><small>'+faces[c.r]+'<br>'+symbols[c.s]+
+        '</small><strong>'+symbols[c.s]+'</strong></div>').join('')
+      :[0,1].map(()=>'<div class="card back"><span>♠</span></div>').join('')
+  )+'</div>';
+}
+
+function button(action,text,disabled=false,extra='',cls=''){
+  return '<button type="button" data-action="'+action+'" '+extra+
+    ' '+(disabled||S.busy?'disabled':'')+' class="'+cls+'">'+text+'</button>';
+}
+
+function ownPlayer(){
+  return S.data?.table?.players.find(p=>p.uid===S.data.member.id);
+}
+
+function renderTable(){
+  const d=S.data,t=d.table,p=ownPlayer();
+  const active=t.phase==='playing',done=t.phase==='done';
+  const blocked=d.mode==='members'&&d.auth.kind==='guest';
+  const total=t.players.filter(u=>u.ready).reduce((n,u)=>n+u.count,0);
+  const available=16-total+(p?.ready?p.count:0);
+
+  let out='<div class="table-top"><span>TABLE 01 <b>'+
+    t.players.length+'/6 คน · '+total+'/16 ขา</b></span>'+
+    '<span>ขาละ 5–50 เครดิต</span></div>'+
+    '<section class="felt"><div class="dealer-label">'+
+    '<div class="avatar">♜</div><strong>'+
+    esc(active||done?t.dealer:d.host?.name||'เจ้ามือ BOT')+
+    '</strong><span>เจ้ามือชุดเดียวกันทุกขา</span></div>'+
+    cards(done?t.b:[])+'<div class="handname">'+
+    (done?handName(t.b):'')+'</div>'+
+    '<div class="table-logo">POK♦<small>SHARED TABLE · 16 HANDS</small></div>';
+
+  if(!active&&!done){
+    out+='<div class="roster">'+Array.from({length:6},(_,i)=>{
+      const u=t.players[i];
+      return '<div class="seat"><span>'+(u?'♙':'+')+'</span><b>'+
+        esc(u?(u.uid===d.member.id?'คุณ':u.name):'ที่ว่าง')+
+        '</b><small>'+(u?(u.ready?u.count+' ขา · '+u.bet+' / ขา':
+        'กำลังเลือกขา'):'รอสมาชิก')+'</small><em>'+
+        (u?.ready?'พร้อมแล้ว':'')+'</em></div>';
+    }).join('')+'</div><p class="muted">1–6 คน รวมสูงสุด 16 ขา</p>';
+  }else{
+    out+='<div class="roundplayers">'+t.players.map(u=>
+      '<div class="roundplayer"><div class="roundplayer-head"><b>'+
+      esc(u.uid===d.member.id?'คุณ':u.name)+'</b><span>'+
+      u.count+' ขา · '+u.bet+' / ขา</span></div><div class="legs">'+
+      u.legs.map((l,i)=>
+        '<div class="leg '+(l.delta>0?'winner':'')+'">'+
+        '<div class="legtitle">ขา '+(i+1)+'<span>'+
+        (done?plus(l.delta):l.done?'รอเปิดผล':'รอเลือก')+
+        '</span></div>'+cards(l.cards)+
+        '<div class="handname">'+handName(l.cards)+'</div>'+
+        (active&&u.uid===d.member.id&&!l.done?
+          '<div class="legactions">'+
+          button('tableDraw','จั่ว +1',false,'data-leg="'+i+'"')+
+          button('tableStay','อยู่',false,'data-leg="'+i+'"')+
+          '</div>':'')+'</div>'
+      ).join('')+'</div></div>'
+    ).join('')+'</div>';
+  }
+
+  const delta=p?.legs.reduce((n,l)=>n+(l.delta||0),0)||0;
+
+  out+='<div class="result" aria-live="polite">'+
+    (done?(p?'ผลรวมของคุณ '+plus(delta)+' เครดิต':'ตานี้จบแล้ว'):
+    active?'เหลือ '+Math.max(0,Math.ceil((t.deadline-Date.now())/1000))+
+    ' วินาที · หมดเวลาระบบให้อยู่':'เลือกขาและเดิมพัน แล้วยืนยันพร้อม')+
+    '</div></section>';
+
+  if(blocked){
+    out+='<div class="authhint">โหมดสมาชิก กรุณาสมัครหรือเข้าสู่ระบบก่อนเล่น '+
+      button('login','เข้าสู่ระบบ')+button('register','สมัครสมาชิก')+'</div>';
+  }
+
+  if(!active&&!done){
+    out+='<section class="controls">';
+    if(!p){
+      out+=button('tableJoin',t.players.length>=6?'โต๊ะเต็ม':'เข้าร่วมโต๊ะ',
+        t.players.length>=6||blocked,'','primary');
+    }else{
+      out+='<div><label>เดิมพันต่อขา</label><div class="chips">'+
+        [5,10,20,25,50].map(n=>button('bet',n,p.ready,
+          'data-value="'+n+'"',S.bet===n?'active':'')).join('')+
+        '</div><label class="custombet">ระบุ 5–50 '+
+        '<input id="bet" type="number" min="5" max="50" step="1" value="'+
+        S.bet+'" '+(p.ready?'disabled':'')+'></label></div>'+
+        '<label class="legcount">จำนวนขา<select id="count" '+
+        (p.ready?'disabled':'')+'>'+
+        Array.from({length:16},(_,i)=>'<option value="'+(i+1)+'" '+
+          ((p.ready?p.count:S.count)===i+1?'selected':'')+' '+
+          (i+1>available?'disabled':'')+'>'+(i+1)+' ขา</option>').join('')+
+        '</select><small>เลือกได้ '+available+' ขา</small></label>'+
+        '<div class="actions">'+
+        (p.ready?button('tableUnready','แก้ไขขา / ยอด'):
+          button('tableReady','ยืนยันพร้อม',
+            !S.accept||S.bet<5||S.bet>50||!Number.isInteger(S.bet)||
+            S.count>available||d.member.credits<S.bet*S.count*5||blocked,
+            '','primary'))+
+        button('tableLeave','ออกโต๊ะ')+'</div>';
+    }
+
+    if(d.canDealer||(!d.host&&p)){
+      out+=button('tableStart','เริ่มแจกทุกขา ↗',
+        !t.players.length||t.players.some(u=>!u.ready),'','primary');
+    }
+    out+='</section>';
+
+    if(p){
+      out+='<label class="consent"><input id="accept" type="checkbox" '+
+        (S.accept?'checked':'')+'>รับทราบเสมอเจ้ามือชนะ · สำรอง 5 เท่า '+
+        (p.ready?p.reserve:S.bet*S.count*5)+' เครดิต</label>'+
+        '<p class="muted">เริ่มได้เมื่อทุกคนพร้อม '+
+        'คืนเครดิตสำรองพร้อมคำนวณผลหลังจบตา</p>';
+    }
+    if(d.host&&!d.canDealer){
+      out+='<p class="muted">รอเจ้าของโต๊ะเริ่มแจกไพ่เมื่อทุกคนพร้อม</p>';
+    }
+  }
+
+  if(done){
+    out+='<div class="nextrow"><span class="muted">บันทึกผลทุกขาแล้ว</span>'+
+      ((p||d.canDealer)?button('tableNext','เปิดตาถัดไป',false,'','primary'):
+      'รอผู้เล่นเปิดตาถัดไป')+
+      (p?button('tableLeave','ออกโต๊ะ'):'')+'</div>';
+  }
+
+  return out;
+}
+
+function renderCredits(){
+  const d=S.data;
+  const blocked=d.mode==='members'&&d.auth.kind==='guest';
+  const labels={
+    approved:'สำเร็จ',pending:'รออนุมัติ',
+    rejected:'ไม่อนุมัติ',cancelled:'ยกเลิก'
+  };
+
+  return '<section class="panel"><h2>'+
+    (d.host?'ขอเติมเครดิตกับเจ้าของโต๊ะ':'เติมเครดิตกับ BOT')+
+    '</h2><p class="muted">'+
+    (d.host?'รอเจ้าของโต๊ะยืนยันก่อนเครดิตเข้า':
+      'เติมเครดิตจำลองเองได้ทันที ไม่มีมูลค่าเป็นเงินจริง')+'</p>'+
+    (blocked?'<div class="authhint">กรุณาเข้าสู่ระบบสมาชิกก่อนขอเติมเครดิต '+
+      button('login','เข้าสู่ระบบ')+'</div>':'')+
+    '<div class="topupform"><label>จำนวนเครดิต'+
+    '<input id="amount" type="number" min="1" max="10000" step="1" value="'+
+    S.amount+'"></label><div class="presets">'+
+    [100,500,1000].map(n=>button('amount',n.toLocaleString(),false,
+      'data-value="'+n+'"',S.amount===n?'chosen':'')).join('')+
+    '</div>'+button('topup',d.host?'ส่งคำขอเติมเครดิต':'เติมเครดิตทันที',
+      blocked||!!d.myPending||!Number.isInteger(S.amount)||
+      S.amount<1||S.amount>10000,'','primary')+
+    '</div><p class="muted">ครั้งละ 1–10,000 ยอดสูงสุด 1,000,000 เครดิต</p>'+
+    (d.myPending?'<div class="pendingbox">รออนุมัติ '+
+      d.myPending.amount+' เครดิต '+
+      button('cancelTopup','ยกเลิกคำขอ',false,
+        'data-id="'+esc(d.myPending.id)+'"')+
+      '<p>คำขอค้างจะไม่อนุมัติอัตโนมัติเมื่อ BOT รับช่วง</p></div>':'')+
+    '</section><section class="panel"><h2>ประวัติการเติมเครดิต</h2>'+
+    '<div class="overflow"><table><tr><th>เวลา</th><th>จำนวน</th>'+
+    '<th>สถานะ</th></tr>'+
+    d.topups.map(t=>'<tr><td>'+esc(date(t.created))+'</td><td>+'+
+      t.amount+'</td><td>'+esc(labels[t.status]||t.status)+'</td></tr>').join('')+
+    '</table></div></section>';
+}
+
+function renderHistory(){
+  return '<section class="panel"><h2>ประวัติของคุณ · 20 ขาล่าสุด</h2>'+
+    '<div class="overflow"><table><tr><th>เวลา</th>'+
+    '<th>ไพ่คุณ / เจ้ามือ</th><th>เดิมพัน</th><th>ผลสุทธิ</th></tr>'+
+    S.data.history.map(r=>{
+      const s=JSON.parse(r.state);
+      return '<tr><td>'+esc(date(r.created))+'</td><td>'+
+        (s.leg?'ขา '+s.leg+' · ':'')+handName(s.p)+' / '+handName(s.b)+
+        '</td><td>'+r.bet+'</td><td class="'+
+        (r.delta>0?'positive':'negative')+'">'+plus(r.delta)+'</td></tr>';
+    }).join('')+'</table></div></section>';
+}
+
+function renderRules(){
+  const rows=[
+    ['ป๊อก 9 / ป๊อก 8','×1 หรือ ×2 เมื่อคู่หรือดอกเดียว'],
+    ['ตอง','×5'],
+    ['เรียงดอกเดียว','×5'],
+    ['เรียง · รวม J–Q–K','×3'],
+    ['เซียน · J/Q/K ไม่ตอง ไม่เรียง','×3'],
+    ['สามใบดอกเดียว','×3'],
+    ['สองใบคู่ / ดอกเดียว','×2'],
+    ['ไพ่ธรรมดา','×1']
+  ];
+
+  return '<section class="panel"><h2>ลำดับใหญ่ไปเล็ก · ตัวคูณฝ่ายชนะ</h2>'+
+    '<table>'+rows.map(r=>'<tr><td>'+r[0]+'</td><td>'+r[1]+
+      '</td></tr>').join('')+'</table><div class="rules">'+
+    '<p>A = 1 · 2–9 ตามหน้าไพ่ · 10/J/Q/K = 0 รวมเฉพาะหลักหน่วย</p>'+
+    '<p>8 หรือ 9 จากสองใบแรกเท่านั้นเป็นป๊อก ป๊อก 9 ใหญ่กว่าป๊อก 8 '+
+    'เจ้ามือป๊อกเปิดทันที ไม่มีการจั่วเพิ่ม ผู้เล่นป๊อกจบขานั้น</p>'+
+    '<p>ไม่ป๊อกเลือกจั่วได้หนึ่งใบ ถือสูงสุดสามใบ เจ้ามือ 0–4 ต้องจั่ว '+
+    '5–7 ต้องอยู่ หลังทุกขาเลือกแล้ว หากผู้เล่นไม่เลือกภายใน 45 วินาที '+
+    'ระบบให้อยู่ ถ้าผู้เล่นป๊อกทุกขา เจ้ามือไม่จั่วเพิ่ม</p>'+
+    '<p>A–2–3 และ Q–K–A เป็นเรียง แต่ K–A–2 ไม่เป็นเรียง '+
+    'J–Q–K เป็นเรียง หากดอกเดียวกันเป็นเรียงดอกเดียว</p>'+
+    '<p>ไพ่พิเศษประเภทเดียวกันถือว่าเท่ากัน ไม่เทียบหน้าไพ่ '+
+    'ไพ่ธรรมดาเทียบแต้มก่อน เด้งไม่เพิ่มแต้ม '+
+    '<b>เสมอทุกกรณีเจ้ามือชนะ ใช้ตัวคูณไพ่เจ้ามือ</b></p>'+
+    '<p>ไพ่พิเศษซ้อนใช้ประเภทใหญ่สุด ไม่คูณซ้อน '+
+    'ตัวคูณใช้ทั้งชนะและแพ้ เช่น เดิมพัน 5 แพ้ตองเสีย 25</p>'+
+    '<p>โต๊ะ 1–6 คน รวมไม่เกิน 16 ขา เดิมพันขาละ 5–50 '+
+    'สมาชิกคนเดียวเล่นหลายขาได้ และเลือกเดิมพันเดียวกันทุกขาของตน</p>'+
+    '<p>ไพ่ใหม่หนึ่งสำรับต่อตาร่วม ทุกขาใช้สำรับเดียวกัน '+
+    'สับสุ่มบนเซิร์ฟเวอร์ ไม่ปรับไพ่ตามยอดกำไร</p>'+
+    '<p>โหมด Guests ใช้ BOT และเติมเครดิตจำลองเองได้ '+
+    'โหมดสมาชิกให้เจ้าของโต๊ะเริ่มแจกและอนุมัติเครดิต '+
+    'ตาที่เริ่มแล้วใช้เจ้ามือเดิมจนจบ</p>'+
+    '<p>เครดิตจำลองเริ่มต้น 100 ไม่มีการฝาก ถอน หรือแลกเงินจริง '+
+    'ผู้เล่น Guests ใช้คุกกี้บนอุปกรณ์นี้ '+
+    'หากล้างคุกกี้จะกลับเข้าบัญชี Guests เดิมไม่ได้</p></div></section>';
+}
+
+function renderDealer(){
+  const d=S.data;
+  if(!d.canDealer)return '';
+
+  return '<div class="stats"><section class="panel">'+
+    '<span>กำไรขาดทุนเจ้ามือวันนี้</span><strong>'+
+    plus(d.stats?.profit||0)+'</strong><small>'+esc(d.day)+
+    ' · Asia/Singapore · เครดิตจำลอง</small></section>'+
+    '<section class="panel"><span>จำนวนขาที่จบวันนี้</span><strong>'+
+    (d.stats?.count||0)+'</strong></section></div>'+
+    '<section class="panel"><h2>คำขอเติมเครดิต</h2>'+
+    (!d.host?'<p class="muted">เข้าดูแลโต๊ะเพื่อดูและยืนยันคำขอของสมาชิก</p>':'')+
+    d.requests.map(t=>'<div class="approvalrow"><div><b>'+esc(t.name)+
+      '</b><p class="muted">ขอเติม '+t.amount+' เครดิต</p></div>'+
+      '<div class="actions">'+
+      button('rejectTopup','ไม่อนุมัติ',false,'data-id="'+esc(t.id)+'"')+
+      button('approveTopup','อนุมัติ',false,'data-id="'+esc(t.id)+'"','primary')+
+      '</div></div>').join('')+
+    '</section><section class="panel"><h2>เจ้ามือของคุณ</h2>'+
+    '<p>คุณเป็นเจ้ามือคนจริงเพียงคนเดียว</p>'+
+    button(d.host?.dealer===d.member.id?'leave':'host',
+      d.host?.dealer===d.member.id?'หยุดดูแล · กลับ Guests':
+      'เข้าดูแล · เปิดสมาชิก',false,'','primary')+
+    '<p class="muted">เมื่อคุณออกหรือไม่เชื่อมต่อเกิน 45 วินาที BOT รับช่วง '+
+    'ตาที่แจกไปแล้วใช้เจ้ามือเดิมจนจบ ยอดเจ้ามือเป็นรายงาน '+
+    'ไม่หักจากกระเป๋าของคุณ</p></section>';
+}
+
+function render(){
+  const d=S.data;
+  if(!d){
+    document.querySelector('#app').innerHTML=
+      '<div class="panel"><h2>กำลังเชื่อมต่อ</h2><p>'+esc(S.error)+
+      '</p>'+button('refresh','ลองใหม่')+'</div>';
+    return;
+  }
+
+  if(S.tab==='dealer'&&!d.canDealer)S.tab='play';
+
+  const nav=[
+    ['play','♠','โต๊ะไพ่'],
+    ['credits','◉','เติมเครดิต'],
+    ['history','◷','ประวัติ'],
+    ['rules','◇','กติกา'],
+    ...(d.canDealer?[['dealer','♜','เจ้ามือและสถิติ']]:[])
+  ];
+
+  const titles={
+    play:'โต๊ะป๊อกเด้ง',credits:'เติมเครดิตจำลอง',
+    history:'ประวัติการเล่น',rules:'กติกาและอัตราจ่าย',dealer:'ห้องเจ้ามือ'
+  };
+
+  const pages={
+    play:renderTable,credits:renderCredits,history:renderHistory,
+    rules:renderRules,dealer:renderDealer
+  };
+
+  document.querySelector('#app').innerHTML=
+    '<div class="app"><aside class="sidebar">'+
+    '<a class="brand" href="/">POK♦</a><p class="eyebrow">THE CARD CLUB</p>'+
+    '<nav>'+nav.map(([id,icon,name])=>
+      '<button type="button" data-tab="'+id+'" class="'+
+      (S.tab===id?'selected':'')+'"><span>'+icon+'</span> '+name+'</button>'
+    ).join('')+'</nav><div class="sidefoot">เครดิตจำลองเท่านั้น'+
+    '<p>ไม่มีฝาก ถอน หรือแลกเงินจริง</p></div></aside><main>'+
+    '<header><div><span class="eyebrow">POK DENG / RED & GOLD</span>'+
+    '<h1>'+titles[S.tab]+'</h1></div>'+
+    '<button type="button" class="wallet" data-tab="credits">'+
+    '<span>เครดิตคงเหลือ · เติม +</span><strong>◉ '+d.member.credits+
+    '</strong></button></header><div class="authbar"><span>'+
+    esc(d.auth.name)+' · '+esc(d.auth.kind)+'</span>'+
+    (d.auth.kind==='guest'?button('login','เข้าสู่ระบบ')+
+      button('register','สมัครสมาชิก'):button('logout','ออกจากระบบ'))+
+    '</div><div class="modebanner"><span class="modepill">'+
+    (d.mode==='members'?'MEMBERS · สมาชิก':'GUESTS · ฝึกเล่น')+
+    '</span><p>'+(d.mode==='members'?
+      'เจ้าของโต๊ะดูแล · เติมเครดิตรอยืนยัน':
+      'BOT ดูแล · เติมเครดิตจำลองเองได้')+
+    '</p></div><div class="notice">♧ ไพ่สุ่มจริง · เสมอเจ้ามือชนะ · เริ่มต้น 100 '+
+    '<span>ไม่รับประกันกำไรเจ้ามือ</span></div>'+
+    (S.error?'<div class="error" role="alert">'+esc(S.error)+'</div>':'')+
+    (S.message?'<div class="success" role="status">'+esc(S.message)+'</div>':'')+
+    pages[S.tab]()+
+    '<footer><span>POK ♦ CLUB</span><span>เครดิตจำลอง</span></footer>'+
+    '</main></div>';
+}
+
+async function call(url,body){
+  const response=await fetch(url,body?{
+    method:'POST',
+    headers:{'Content-Type':'application/json'},
+    body:JSON.stringify(body),
+    credentials:'same-origin'
+  }:{
+    cache:'no-store',
+    credentials:'same-origin'
+  });
+
+  let data;
+  try{
+    data=await response.json();
+  }catch{
+    throw Error('เซิร์ฟเวอร์ยังไม่พร้อม กรุณาลองใหม่');
+  }
+  if(!response.ok)throw Error(data.error||'ระบบขัดข้อง');
+  return data;
+}
+
+let refreshing=false;
+let identityVersion=0;
+
+async function refresh(){
+  if(S.busy||refreshing)return;
+  refreshing=true;
+  const version=identityVersion;
+
+  try{
+    const data=await call('/api/game');
+    if(S.busy||version!==identityVersion)return;
+    S.data=data;
+    if(!['INPUT','SELECT'].includes(document.activeElement?.tagName)){
+      render();
+    }
+  }catch(error){
+    if(!S.busy&&version===identityVersion){
+      S.error=error.message;
+      render();
+    }
+  }finally{
+    refreshing=false;
+  }
+}
+
+async function act(action,extra={}){
+  if(S.busy)return;
+  S.busy=true;
+  S.error='';
+  S.message='';
+
+  try{
+    if(action==='topup'&&!S.key)S.key=crypto.randomUUID();
+    render();
+    S.data=await call('/api/game',{
+      action,bet:S.bet,count:S.count,accept:S.accept,
+      amount:S.amount,requestKey:S.key,
+      roundId:S.data?.table?.roundId,...extra
+    });
+    if(action==='topup')S.key=null;
+    S.message=S.data.message||'';
+  }catch(error){
+    S.error=error.message;
+  }finally{
+    S.busy=false;
+    render();
+  }
+}
+
+function openAuth(mode){
+  S.authMode=mode;
+  const registering=mode==='register';
+  const password=document.querySelector('[name=password]');
+  const name=document.querySelector('[name=name]');
+
+  password.minLength=registering?12:1;
+  password.autocomplete=registering?'new-password':'current-password';
+  name.required=registering;
+  document.querySelector('#authTitle').textContent=
+    registering?'สมัครสมาชิก':'เข้าสู่ระบบ';
+  document.querySelector('#nameLabel').hidden=!registering;
+  document.querySelector('#authSwitch').textContent=
+    registering?'มีบัญชีแล้ว':'สมัครสมาชิก';
+  document.querySelector('#authError').textContent='';
+  document.querySelector('#authModal').hidden=false;
+}
+
+document.addEventListener('click',async event=>{
+  const tab=event.target.closest('[data-tab]');
+  if(tab){
+    S.tab=tab.dataset.tab;
+    S.error='';
+    S.message='';
+    render();
+    return;
+  }
+
+  const element=event.target.closest('[data-action]');
+  if(!element||element.disabled)return;
+  const action=element.dataset.action;
+
+  if(action==='bet'){
+    S.bet=Number(element.dataset.value);
+    render();
+    return;
+  }
+
+  if(action==='amount'){
+    S.amount=Number(element.dataset.value);
+    S.key=null;
+    render();
+    return;
+  }
+
+  if(action==='refresh'){
+    await refresh();
+    return;
+  }
+
+  if(action==='login'||action==='register'){
+    openAuth(action);
+    return;
+  }
+
+  if(action==='logout'){
+    if(S.busy)return;
+    S.busy=true;
+    identityVersion++;
+    render();
+    try{
+      await call('/api/auth',{action:'logout'});
+      S.data=await call('/api/game');
+      S.accept=false;
+      S.key=null;
+      S.error='';
+      S.message='';
+      S.tab='play';
+    }catch(error){
+      S.error=error.message;
+    }finally{
+      S.busy=false;
+      render();
+    }
+    return;
+  }
+
+  await act(action,{
+    ...(element.dataset.id?{topupId:element.dataset.id}:{}),
+    ...(element.dataset.leg!==undefined?{leg:Number(element.dataset.leg)}:{})
+  });
+});
+
+document.addEventListener('change',event=>{
+  const element=event.target;
+  if(element.id==='bet')S.bet=Number(element.value);
+  if(element.id==='count')S.count=Number(element.value);
+  if(element.id==='amount'){
+    S.amount=Number(element.value);
+    S.key=null;
+  }
+  if(element.id==='accept')S.accept=element.checked;
+  if(['bet','count','amount','accept'].includes(element.id))render();
+});
+
+document.querySelector('#authClose').onclick=()=>{
+  document.querySelector('#authModal').hidden=true;
+};
+
+document.querySelector('#authSwitch').onclick=()=>{
+  openAuth(S.authMode==='login'?'register':'login');
+};
+
+document.querySelector('#authForm').onsubmit=async event=>{
+  event.preventDefault();
+  if(S.busy)return;
+
+  const form=event.currentTarget;
+  const submitButton=form.querySelector('[type=submit]');
+  submitButton.disabled=true;
+  S.busy=true;
+  identityVersion++;
+
+  try{
+    const values=Object.fromEntries(new FormData(form));
+    await call('/api/auth',{...values,action:S.authMode});
+    S.data=await call('/api/game');
+    S.error='';
+    S.message='';
+    S.accept=false;
+    S.key=null;
+    document.querySelector('#authModal').hidden=true;
+    form.reset();
+  }catch(error){
+    document.querySelector('#authError').textContent=error.message;
+  }finally{
+    S.busy=false;
+    submitButton.disabled=false;
+    render();
+  }
+};
+
+setInterval(refresh,3000);
+
+setInterval(async()=>{
+  const d=S.data;
+  if(!d||S.busy)return;
+  try{
+    if(d.canDealer&&d.host?.dealer===d.member.id){
+      await call('/api/game',{action:'host'});
+    }
+    if(ownPlayer()){
+      await call('/api/game',{action:'tablePing'});
+    }
+  }catch{}
+},15000);
+
+refresh();
+</script>
+</body>
+</html>
+<!-- END OF INDEX -->
